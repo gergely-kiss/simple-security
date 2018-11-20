@@ -1,21 +1,21 @@
-server:
-  port: 8002
-  context-path: /ui
-  session:
-    cookie:
-	  name: UISESSION
-security:
-  basic:
+--- 
+security: 
+  basic: 
     enabled: false
-  oath2:
-  client:
+  client: 
+    accesTokenUri: "http://localhost:8001/auth/oath/token"
     clientId: ClientId
     clientSecret: secret
-    accesTokenUri: http://localhost:8001/auth/oath/token 
-    userAuthorizationUri: http://localhost:8001/auth/oath/authorize
-  resource:
-    userInfoUri: http://localhost:8001/auth/rest/hello
-			
-spring:
-  thymeleaf:
-    cache: false 
+    userAuthorizationUri: "http://localhost:8001/auth/oath/authorize"
+  oath2: ~
+  resource: 
+    userInfoUri: "http://localhost:8001/auth/rest/hello"
+server: 
+  context-path: /ui
+  port: 8002
+  session: 
+    cookie: 
+      name: UISESSION
+spring: 
+  thymeleaf: 
+    cache: false
