@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableResourceServer
 @Configuration
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	public AuthenticationManager authenticationManager;
 
@@ -26,24 +26,29 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/login", "/oaurh/authorize").and().authorizeRequests().anyRequest()
-				.authenticated().and().formLogin().permitAll();
+
+		http.antMatcher("/**").authorizeRequests().antMatchers("/", "/oaurh/authorize").permitAll().anyRequest()
+				.authenticated();
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.config.annotation.web.configuration.
+	 * WebSecurityConfigurerAdapter#configure(org.springframework.security.config.
+	 * annotation.authentication.builders.AuthenticationManagerBuilder)
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.parentAuthenticationManager(authenticationManager).inMemoryAuthentication().withUser("Gergely").password("pass").roles("ADMIN");
+		auth.parentAuthenticationManager(authenticationManager).inMemoryAuthentication().withUser("Gergely")
+				.password("pass").roles("ADMIN");
 	}
-	
-	
+
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	   @Override
-	   public AuthenticationManager authenticationManagerBean() throws Exception {
-	       return super.authenticationManagerBean();
-	   }
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 }
